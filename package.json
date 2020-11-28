@@ -1,0 +1,11 @@
+{
+  "name": "star-system-generator",
+  "version": "0.0.1",
+  "description": "Generates star systems",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Nick Bohannan",
+  "license": "ISC"
+}
