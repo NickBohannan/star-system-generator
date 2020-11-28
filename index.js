@@ -4,19 +4,88 @@ const Civilization = require('./civilization')
 
 const Config = require("./config")
 const starNames = require("./starnames")
+const nameComponents = require("./civnames")
+const detailComponents = require("./civdetails")
 
-let generateStarSystem = () => {
-    let rockyBias = Math.random() * (.8, .2) + .2
+const generateStarName = () => {
+    let nameArray = []
+    let nameRounds = Config.getRandomInt(3) + 1
+
+    for (j = 0; j < nameRounds; j++) {
+        nameArray.push(nameComponents.consonants[Config.getRandomInt(nameComponents.consonants.length)])
+        nameArray.push(nameComponents.vowels[Config.getRandomInt(nameComponents.vowels.length)])
+    }
     
+    let finalNameLowerCase = nameArray.join("")
+    
+    return finalNameLowerCase.charAt(0).toUpperCase() + finalNameLowerCase.slice(1)
+}
+
+const generateCivName = () => {
+    let nameArray = []
+    let nameRounds = Config.getRandomInt(3) + 1
+
+    for (j = 0; j < nameRounds; j++) {
+        nameArray.push(nameComponents.consonants[Config.getRandomInt(nameComponents.consonants.length)])
+        nameArray.push(nameComponents.vowels[Config.getRandomInt(nameComponents.vowels.length)])
+    }
+
+    nameArray.push(nameComponents.endings[Config.getRandomInt(nameComponents.endings.length)])
+    
+    let finalNameLowerCase = nameArray.join("")
+    
+    return finalNameLowerCase.charAt(0).toUpperCase() + finalNameLowerCase.slice(1)
+}
+
+const generateCivDetails = () => {
+    let color = detailComponents.skinColor[Config.getRandomInt(detailComponents.skinColor.length)]
+    let type = detailComponents.bodyType[Config.getRandomInt(detailComponents.bodyType.length)]
+    
+    let bodyCovering
+    
+    switch (type) {
+        case "aquatic":
+            if (Config.getRandomInt(2) == 0) {
+                bodyCovering = "rubbery skin"
+            } else {
+                bodyCovering = "scales"
+            }
+            break
+        case "terrestrial":
+            if (Config.getRandomInt(2) == 0) {
+                bodyCovering = "skin"
+            } else {
+                bodyCovering = "fur"
+            }
+            break
+        case "subterranean":
+            bodyCovering = "skin"
+            break
+        case "insectoid":
+            bodyCovering = "carapace"
+            break
+        default:
+            break
+    }
+ 
+    return {
+        body: color + " " + bodyCovering,
+        type: type
+    }
+}
+
+const generateStarSystem = () => {
+    let rockyBias = Math.random() * (.9, .3) + .3
+
     // generate star
     STAR_SYSTEM = {
         star: null,
         planets: []
     }
-    
+
     starParams = {
-        name: starNames[Math.floor(Math.random() * starNames.length)],
-        diameter: Math.floor(((Math.random() * (Config.stellarDiameterMax - Config.stellarDiameterMin) + Config.stellarDiameterMin) + Config.solarDiameter)/2)
+        name: generateStarName(),
+        diameter: Math.floor(((Math.random() * (Config.stellarDiameterMax - Config.stellarDiameterMin) + Config.stellarDiameterMin) + Config.solarDiameter) / 2)
     }
 
     STAR_SYSTEM.star = new Star(starParams)
@@ -24,7 +93,9 @@ let generateStarSystem = () => {
     // generate planets
     let planetNum = Math.floor(Math.random() * 15)
 
-    for (i=0; i<planetNum; i++) {
+    let gasCounter = 0
+
+    for (i = 0; i < planetNum; i++) {
         planetParams = {
             distance: Math.floor(Math.random() * Config.planetDistanceMax * rockyBias)
         }
@@ -44,13 +115,14 @@ let generateStarSystem = () => {
         } else {
             planetParams.isHabitable = false
         }
-
+        
         // check if civilization exists
         if (Math.floor(Math.random() * Config.globalCivChance) < 1 && planetParams.isHabitable == true) {
             civParams = {
-                name: `${starParams.name + "ians"}`
+                name: generateCivName(),
+                details: generateCivDetails()
             }
-            
+
             techCheck = Math.floor(Math.random() * 100)
 
             if (techCheck >= 66) {
@@ -66,15 +138,26 @@ let generateStarSystem = () => {
         }
 
         // add planet to array
-        STAR_SYSTEM.planets.push(new Planet(planetParams)) 
+        STAR_SYSTEM.planets.push(new Planet(planetParams))
     }
 
     // sort planets by distance
     STAR_SYSTEM.planets.sort((a, b) => (a.distance > b.distance) ? 1 : -1)
 
+    // if there are more than 5 gaseous planets, trim the rest off (they eat each other a lot!)
+    STAR_SYSTEM.planets.forEach(e => {
+        if (e.type == "gaseous") {
+            gasCounter++
+        }
+    })
+
+    if (gasCounter > 5) {
+        STAR_SYSTEM.planets = STAR_SYSTEM.planets.slice(0, STAR_SYSTEM.planets.length - gasCounter + 5)
+    }
+
     // assign name by distance
-    for (i=0; i<STAR_SYSTEM.planets.length; i++) {
-        STAR_SYSTEM.planets[i].name = `${STAR_SYSTEM.star.name}-${i+1}`
+    for (i = 0; i < STAR_SYSTEM.planets.length; i++) {
+        STAR_SYSTEM.planets[i].name = `${STAR_SYSTEM.star.name}-${i + 1}`
     }
 
     // output everything to console
@@ -86,14 +169,16 @@ let generateStarSystem = () => {
         if (e.civilization) {
             console.log("    Civilization Name: " + e.civilization.name)
             console.log("    Tech Level: " + e.civilization.techLevel)
+            console.log("    Type: " + e.civilization.type)
+            console.log("    Body: " + e.civilization.body)
         }
     })
 
     console.log("")
-
 }
 
-for (k=0; k<Config.starSystemCount; k++) {
-    generateStarSystem()
+// generate all the star systems! - ULTIMATE POWER!!!
+for (k = 0; k < Config.starSystemCount; k++) {
+   generateStarSystem()
 }
 

@@ -12,5 +12,10 @@ module.exports = {
     rockDiameterMin: 4000,
     rockDiameterMax: 15000,
     globalCivChance: 5,
-    starSystemCount: 20
+    starSystemCount: 10,
+    getRandomInt: function(max) {
+	    return Math.floor(Math.random() * Math.floor(max))
+    }
 }
+
+  
