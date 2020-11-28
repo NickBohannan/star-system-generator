@@ -3,7 +3,6 @@ const Star = require("./star")
 const Civilization = require('./civilization')
 
 const Config = require("./config")
-const starNames = require("./starnames")
 const nameComponents = require("./civnames")
 const detailComponents = require("./civdetails")
 
@@ -64,6 +63,8 @@ const generateCivDetails = () => {
         case "insectoid":
             bodyCovering = "carapace"
             break
+        case "avian":
+            bodyCovering = "feathers"
         default:
             break
     }
