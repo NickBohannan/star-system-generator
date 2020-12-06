@@ -29,8 +29,11 @@ const generateCivName = () => {
         nameArray.push(nameComponents.vowels[Config.getRandomInt(nameComponents.vowels.length)])
     }
 
-    nameArray.push(nameComponents.endings[Config.getRandomInt(nameComponents.endings.length)])
-    
+    // add ending only if the current name ends in consonant
+    let isVowelEnd = nameComponents.vowels.includes(nameArray[nameArray.length -1])
+
+    if (!isVowelEnd) nameArray.push(nameComponents.endings[Config.getRandomInt(nameComponents.endings.length)])
+
     let finalNameLowerCase = nameArray.join("")
     
     return finalNameLowerCase.charAt(0).toUpperCase() + finalNameLowerCase.slice(1)
@@ -39,6 +42,7 @@ const generateCivName = () => {
 const generateCivDetails = () => {
     let color = detailComponents.skinColor[Config.getRandomInt(detailComponents.skinColor.length)]
     let type = detailComponents.bodyType[Config.getRandomInt(detailComponents.bodyType.length)]
+    // let gov = detailComponents.government[Config.getRandomInt(detailComponents.government.length)]
     
     let bodyCovering
     
@@ -68,7 +72,7 @@ const generateCivDetails = () => {
         default:
             break
     }
- 
+
     return {
         body: color + " " + bodyCovering,
         type: type
@@ -165,8 +169,8 @@ const generateStarSystem = () => {
     console.log("Star System: " + STAR_SYSTEM.star.name)
     console.log("Star Diameter: " + STAR_SYSTEM.star.diameter)
 
-    STAR_SYSTEM.planets.forEach((e) => {
-        console.log(`${e.name} - ${e.type} - ${e.isHabitable} - ${e.diameter} - ${e.distance} `)
+    STAR_SYSTEM.planets.forEach(e => {
+        console.log(`Name: ${e.name} - Type: ${e.type} - Habitable: ${e.isHabitable} - Diameter: ${e.diameter} km - Distance from Star: ${e.distance} km`)
         if (e.civilization) {
             console.log("    Civilization Name: " + e.civilization.name)
             console.log("    Tech Level: " + e.civilization.techLevel)
@@ -180,6 +184,6 @@ const generateStarSystem = () => {
 
 // generate all the star systems! - ULTIMATE POWER!!!
 for (k = 0; k < Config.starSystemCount; k++) {
-   generateStarSystem()
+    generateStarSystem()
 }
 

@@ -20,5 +20,8 @@ module.exports = {
         "avian",
         "subterranean",
         "insectoid"
+    ], 
+    governments: [
+        
     ]
 }
