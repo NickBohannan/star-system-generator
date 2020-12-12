@@ -19,10 +19,9 @@ function generateName() {
         nameArray.push(nameComponents.vowels[Config.getRandomInt(nameComponents.vowels.length)])
     }
 
-    // add ending only if the current name ends in consonant
-    let isVowelEnd = nameComponents.vowels.includes(nameArray[nameArray.length - 1])
-
-    if (!isVowelEnd) nameArray.push(nameComponents.endings[Config.getRandomInt(nameComponents.endings.length)])
+    if (Config.getRandomInt(2) == 0) {
+        nameArray.push(nameComponents.consonants[Config.getRandomInt(nameComponents.consonants.length)])
+    }
 
     let finalNameLowerCase = nameArray.join("")
 
