@@ -1,4 +1,4 @@
-module.exports = {
+const detailComponents = {
     skinColor: [
         "blue",
         "red",
@@ -20,8 +20,5 @@ module.exports = {
         "avian",
         "subterranean",
         "insectoid"
-    ], 
-    governments: [
-        
     ]
 }

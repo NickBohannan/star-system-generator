@@ -1,12 +1,18 @@
-const Planet = require("./planet")
-const Star = require("./star")
-const Civilization = require('./civilization')
+// const Planet = require("./planet")
+// const Star = require("./star")
+// const Civilization = require('./civilization')
 
-const Config = require("./config")
-const nameComponents = require("./civnames")
-const detailComponents = require("./civdetails")
+// const Config = require("./config")
+// const nameComponents = require("./civnames")
+// const detailComponents = require("./civdetails")
 
-const generateStarName = () => {
+const space = document.getElementById("space")
+spaceX = space.offsetWidth - 5
+spaceY = space.offsetHeight - 5
+
+
+
+function generateStarName() {
     let nameArray = []
     let nameRounds = Config.getRandomInt(3) + 1
 
@@ -14,13 +20,13 @@ const generateStarName = () => {
         nameArray.push(nameComponents.consonants[Config.getRandomInt(nameComponents.consonants.length)])
         nameArray.push(nameComponents.vowels[Config.getRandomInt(nameComponents.vowels.length)])
     }
-    
+
     let finalNameLowerCase = nameArray.join("")
-    
+
     return finalNameLowerCase.charAt(0).toUpperCase() + finalNameLowerCase.slice(1)
 }
 
-const generateCivName = () => {
+function generateCivName() {
     let nameArray = []
     let nameRounds = Config.getRandomInt(3) + 1
 
@@ -30,22 +36,22 @@ const generateCivName = () => {
     }
 
     // add ending only if the current name ends in consonant
-    let isVowelEnd = nameComponents.vowels.includes(nameArray[nameArray.length -1])
+    let isVowelEnd = nameComponents.vowels.includes(nameArray[nameArray.length - 1])
 
     if (!isVowelEnd) nameArray.push(nameComponents.endings[Config.getRandomInt(nameComponents.endings.length)])
 
     let finalNameLowerCase = nameArray.join("")
-    
+
     return finalNameLowerCase.charAt(0).toUpperCase() + finalNameLowerCase.slice(1)
 }
 
-const generateCivDetails = () => {
+function generateCivDetails() {
     let color = detailComponents.skinColor[Config.getRandomInt(detailComponents.skinColor.length)]
     let type = detailComponents.bodyType[Config.getRandomInt(detailComponents.bodyType.length)]
     // let gov = detailComponents.government[Config.getRandomInt(detailComponents.government.length)]
-    
+
     let bodyCovering
-    
+
     switch (type) {
         case "aquatic":
             if (Config.getRandomInt(2) == 0) {
@@ -79,7 +85,8 @@ const generateCivDetails = () => {
     }
 }
 
-const generateStarSystem = () => {
+function generateStarSystem() {
+    console.log(spaceX)
     let rockyBias = Math.random() * (.9, .3) + .3
 
     // generate star
@@ -120,7 +127,7 @@ const generateStarSystem = () => {
         } else {
             planetParams.isHabitable = false
         }
-        
+
         // check if civilization exists
         if (Math.floor(Math.random() * Config.globalCivChance) < 1 && planetParams.isHabitable == true) {
             civParams = {
@@ -180,10 +187,5 @@ const generateStarSystem = () => {
     })
 
     console.log("")
-}
-
-// generate all the star systems! - ULTIMATE POWER!!!
-for (k = 0; k < Config.starSystemCount; k++) {
-    generateStarSystem()
 }
 

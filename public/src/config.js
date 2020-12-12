@@ -1,4 +1,4 @@
-module.exports = {
+const Config = {
     solarDiameter: 650000,
     stellarDiameterMin: 4000,
     stellarDiameterMax: 5000000,
@@ -13,9 +13,9 @@ module.exports = {
     rockDiameterMax: 15000,
     globalCivChance: 10,
     starSystemCount: 50,
-    getRandomInt: function(max) {
-	    return Math.floor(Math.random() * Math.floor(max))
+    getRandomInt: function (max) {
+        return Math.floor(Math.random() * Math.floor(max))
     }
 }
 
-  
+

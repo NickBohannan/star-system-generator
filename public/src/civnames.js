@@ -1,4 +1,4 @@
-module.exports = {
+const nameComponents = {
     consonants: [
         "b",
         "c",
@@ -49,7 +49,7 @@ module.exports = {
         "u"
     ],
     endings: [
-        "ian", 
+        "ian",
         "i",
         "an",
         "a",
