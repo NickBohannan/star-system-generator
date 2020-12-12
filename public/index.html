@@ -5,13 +5,17 @@
     <meta charset="UTF-8">
     <title>Star System Generator</title>
     <link rel="stylesheet" href="main.css">
+
 </head>
 
 <body>
-    <div id="space-container">
-        <div id="space"></div>
+    <div id="space"></div>
+    <div id="btn-container">
+        <label for="system-number">Enter in # of stars (250 or less) - make sure your console is open (F12, click
+            console)</label>
+        <input type="text" id="system-number">
+        <div class="btn" onclick="loopGenerate()">FIAT LVX</div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/p5@1.1.9/lib/p5.js"></script>
     <script src="./src/index.js"></script>
     <script src="./src/civdetails.js"></script>
     <script src="./src/civilization.js"></script>
@@ -19,9 +23,7 @@
     <script src="./src/config.js"></script>
     <script src="./src/planet.js"></script>
     <script src="./src/star.js"></script>
-    <script>
-        generateStarSystem()
-    </script>
 </body>
+
 
 </html>

@@ -7,16 +7,14 @@
 // const detailComponents = require("./civdetails")
 
 const space = document.getElementById("space")
-spaceX = space.offsetWidth - 5
-spaceY = space.offsetHeight - 5
-
-
+spaceX = space.offsetWidth - 50
+spaceY = space.offsetHeight - 50
 
 function generateStarName() {
     let nameArray = []
     let nameRounds = Config.getRandomInt(3) + 1
 
-    for (j = 0; j < nameRounds; j++) {
+    for (let j = 0; j < nameRounds; j++) {
         nameArray.push(nameComponents.consonants[Config.getRandomInt(nameComponents.consonants.length)])
         nameArray.push(nameComponents.vowels[Config.getRandomInt(nameComponents.vowels.length)])
     }
@@ -30,7 +28,7 @@ function generateCivName() {
     let nameArray = []
     let nameRounds = Config.getRandomInt(3) + 1
 
-    for (j = 0; j < nameRounds; j++) {
+    for (let j = 0; j < nameRounds; j++) {
         nameArray.push(nameComponents.consonants[Config.getRandomInt(nameComponents.consonants.length)])
         nameArray.push(nameComponents.vowels[Config.getRandomInt(nameComponents.vowels.length)])
     }
@@ -97,7 +95,9 @@ function generateStarSystem() {
 
     starParams = {
         name: generateStarName(),
-        diameter: Math.floor(((Math.random() * (Config.stellarDiameterMax - Config.stellarDiameterMin) + Config.stellarDiameterMin) + Config.solarDiameter) / 2)
+        diameter: Math.floor(((Math.random() * (Config.stellarDiameterMax - Config.stellarDiameterMin) + Config.stellarDiameterMin) + Config.solarDiameter) / 2),
+        x: Math.floor(Math.random() * spaceX),
+        y: Math.floor(Math.random() * spaceY)
     }
 
     STAR_SYSTEM.star = new Star(starParams)
@@ -107,7 +107,7 @@ function generateStarSystem() {
 
     let gasCounter = 0
 
-    for (i = 0; i < planetNum; i++) {
+    for (let i = 0; i < planetNum; i++) {
         planetParams = {
             distance: Math.floor(Math.random() * Config.planetDistanceMax * rockyBias)
         }
@@ -168,9 +168,22 @@ function generateStarSystem() {
     }
 
     // assign name by distance
-    for (i = 0; i < STAR_SYSTEM.planets.length; i++) {
+    for (let i = 0; i < STAR_SYSTEM.planets.length; i++) {
         STAR_SYSTEM.planets[i].name = `${STAR_SYSTEM.star.name}-${i + 1}`
     }
+
+    // place star on the webpage with name
+    let starElement = document.createElement("div")
+    starElement.classList.add("entity")
+    starElement.style.top = starParams.y.toString() + "px"
+    starElement.style.left = starParams.x.toString() + "px"
+
+    let starName = document.createElement("div")
+    starName.classList.add("star-name")
+    starName.innerHTML = starParams.name
+
+    starElement.appendChild(starName)
+    space.appendChild(starElement)
 
     // output everything to console
     console.log("Star System: " + STAR_SYSTEM.star.name)
@@ -187,5 +200,23 @@ function generateStarSystem() {
     })
 
     console.log("")
+}
+
+function loopGenerate() {
+    // remove all stars
+    let spaceDiv = document.getElementById("space")
+    while (spaceDiv.lastElementChild) {
+        spaceDiv.removeChild(space.lastElementChild)
+    }
+
+    // add number of star sytems equal to system number value
+    let loopNum = document.getElementById("system-number").value
+
+    if (loopNum <= 250) {
+        for (let j = 0; j < loopNum; j++) {
+            console.log(loopNum)
+            generateStarSystem()
+        }
+    }
 }
 
