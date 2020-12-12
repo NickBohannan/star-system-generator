@@ -12,7 +12,7 @@ const spaceY = space.offsetHeight - 50
 
 function generateName() {
     let nameArray = []
-    let nameRounds = Config.getRandomInt(4) + 2
+    let nameRounds = Config.getRandomInt(3) + 2
 
     for (let j = 0; j < nameRounds; j++) {
         nameArray.push(nameComponents.consonants[Config.getRandomInt(nameComponents.consonants.length)])
