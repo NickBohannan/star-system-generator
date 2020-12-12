@@ -7,26 +7,12 @@
 // const detailComponents = require("./civdetails")
 
 const space = document.getElementById("space")
-spaceX = space.offsetWidth - 50
-spaceY = space.offsetHeight - 50
+const spaceX = space.offsetWidth - 50
+const spaceY = space.offsetHeight - 50
 
-function generateStarName() {
+function generateName() {
     let nameArray = []
-    let nameRounds = Config.getRandomInt(3) + 1
-
-    for (let j = 0; j < nameRounds; j++) {
-        nameArray.push(nameComponents.consonants[Config.getRandomInt(nameComponents.consonants.length)])
-        nameArray.push(nameComponents.vowels[Config.getRandomInt(nameComponents.vowels.length)])
-    }
-
-    let finalNameLowerCase = nameArray.join("")
-
-    return finalNameLowerCase.charAt(0).toUpperCase() + finalNameLowerCase.slice(1)
-}
-
-function generateCivName() {
-    let nameArray = []
-    let nameRounds = Config.getRandomInt(3) + 1
+    let nameRounds = Config.getRandomInt(4) + 2
 
     for (let j = 0; j < nameRounds; j++) {
         nameArray.push(nameComponents.consonants[Config.getRandomInt(nameComponents.consonants.length)])
@@ -94,7 +80,7 @@ function generateStarSystem() {
     }
 
     starParams = {
-        name: generateStarName(),
+        name: generateName(),
         diameter: Math.floor(((Math.random() * (Config.stellarDiameterMax - Config.stellarDiameterMin) + Config.stellarDiameterMin) + Config.solarDiameter) / 2),
         x: Math.floor(Math.random() * spaceX),
         y: Math.floor(Math.random() * spaceY)
@@ -131,7 +117,7 @@ function generateStarSystem() {
         // check if civilization exists
         if (Math.floor(Math.random() * Config.globalCivChance) < 1 && planetParams.isHabitable == true) {
             civParams = {
-                name: generateCivName(),
+                name: generateName(),
                 details: generateCivDetails()
             }
 
