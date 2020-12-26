@@ -19,6 +19,31 @@ const detailComponents = {
         "terrestrial",
         "avian",
         "subterranean",
-        "insectoid"
-    ]
+        "insectoid",
+        "liquid",
+        "gaseous",
+        "fungal-like",
+    ],
+    power: [
+        "aristocracy",
+        "ergatocracy",
+        "geniocracy",
+        "kraterocracy",
+        "kritarchy",
+        "meritocracy",
+        "netocracy",
+        "noocracy",
+        "plutocracy",
+        "particracy",
+        "stratocracy",
+        "technocracy",
+        "theocracy",
+        "timocracy",
+        "civilian dictatorship",
+        "military dictatorship",
+        "absolute monarchy"
+    ],
+    sex: null,
+    sexNum: null,
+
 }

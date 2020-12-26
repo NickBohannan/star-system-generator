@@ -7,8 +7,9 @@
 // const detailComponents = require("./civdetails")
 
 const space = document.getElementById("space")
-const spaceX = space.offsetWidth - 50
-const spaceY = space.offsetHeight - 50
+const padding = 50
+const spaceX = space.offsetWidth - padding
+const spaceY = space.offsetHeight - padding
 
 function generateName() {
     let nameArray = []
@@ -160,8 +161,8 @@ function generateStarSystem() {
     // place star on the webpage with name
     let starElement = document.createElement("div")
     starElement.classList.add("entity")
-    starElement.style.top = starParams.y.toString() + "px"
-    starElement.style.left = starParams.x.toString() + "px"
+    starElement.style.top = starParams.y + "px"
+    starElement.style.left = 100 * (starParams.x / (spaceX + padding)) + "%"
 
     let starName = document.createElement("div")
     starName.classList.add("star-name")
@@ -170,18 +171,44 @@ function generateStarSystem() {
     starElement.appendChild(starName)
     space.appendChild(starElement)
 
+    let starList = document.querySelector("#star-list")
+
     // output everything to console
     console.log("Star System: " + STAR_SYSTEM.star.name)
     console.log("Star Diameter: " + STAR_SYSTEM.star.diameter)
 
+
     STAR_SYSTEM.planets.forEach(e => {
-        console.log(`Name: ${e.name} - Type: ${e.type} - Habitable: ${e.isHabitable} - Diameter: ${e.diameter} km - Distance from Star: ${e.distance} km`)
-        if (e.civilization) {
-            console.log("    Civilization Name: " + e.civilization.name)
-            console.log("    Tech Level: " + e.civilization.techLevel)
-            console.log("    Type: " + e.civilization.type)
-            console.log("    Body: " + e.civilization.body)
-        }
+        // console.log(`Name: ${e.name} - Type: ${e.type} - Habitable: ${e.isHabitable} - Diameter: ${e.diameter} km - Distance from Star: ${e.distance} km`)
+        // if (e.civilization) {
+        //     console.log("    Civilization Name: " + e.civilization.name)
+        //     console.log("    Tech Level: " + e.civilization.techLevel)
+        //     console.log("    Type: " + e.civilization.type)
+        //     console.log("    Body: " + e.civilization.body)
+        // }
+        let trElement = document.createElement("tr")
+        starList.appendChild(trElement)
+
+        let nameElement = document.createElement("th")
+        nameElement.setAttribute("scope", "row")
+        nameElement.innerHTML = e.name
+        trElement.appendChild(nameElement)
+
+        let typeElement = document.createElement("td")
+        typeElement.innerHTML = e.type
+        trElement.appendChild(typeElement)
+
+        let habElement = document.createElement("td")
+        habElement.innerHTML = e.isHabitable
+        trElement.appendChild(habElement)
+
+        let diamElement = document.createElement("td")
+        diamElement.innerHTML = e.diameter
+        trElement.appendChild(diamElement)
+
+        let distElement = document.createElement("td")
+        distElement.innerHTML = e.distance
+        trElement.appendChild(distElement)
     })
 
     console.log("")

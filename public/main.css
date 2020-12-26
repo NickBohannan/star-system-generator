@@ -3,8 +3,8 @@ body {
 }
 
 #space {
-    height: 600px;
-    width: 800px;
+    height: 20rem;
+    width: 100%;
     background-color: black;
 }
 
@@ -20,7 +20,7 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 800px;
+    width: 100%;
     margin-top: 15px;
 }
 
@@ -28,9 +28,10 @@ body {
     margin-top: 15px;
     text-align: center;
     color: white;
-    width: 210px;
-    height: 50px;
-    font-size: 45px;
+    width: 8rem;
+    height: 2rem;
+    font-size: 1.5rem;
+    font-family: 'Monsieur La Doulaise', cursive;
     border-radius: 10px;
     background-color: green;
 }
@@ -48,5 +49,13 @@ body {
 
 input {
     width: 50px;
+}
+
+#star-list-container {
+    width: 100%;
+}
+
+tr {
+    font-size: 0.8rem;
 }
 

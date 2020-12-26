@@ -1,11 +1,11 @@
 {
   "name": "star-system-generator",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Generates star systems",
   "main": "index.js",
   "scripts": {
-    "test": "node server.js",
-    "start": "node server.js"
+    "test": "node fiat-lux-server.js",
+    "start": "node fiat-lux-server.js"
   },
   "author": "Nick Bohannan",
   "license": "ISC",
