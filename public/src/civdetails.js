@@ -22,7 +22,7 @@ const detailComponents = {
         "insectoid",
         "liquid",
         "gaseous",
-        "fungal-like",
+        "fungal-like"
     ],
     power: [
         "aristocracy",

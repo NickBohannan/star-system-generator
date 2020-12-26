@@ -7,6 +7,7 @@
 // const detailComponents = require("./civdetails")
 
 const space = document.getElementById("space")
+const starListTable = document.getElementById("star-list")
 const padding = 50
 const spaceX = space.offsetWidth - padding
 const spaceY = space.offsetHeight - padding
@@ -59,6 +60,16 @@ function generateCivDetails() {
             break
         case "avian":
             bodyCovering = "feathers"
+            break
+        case "liquid":
+            bodyCovering = "liquid"
+            break
+        case "gaseous":
+            bodyCovering = "gas"
+            break
+        case "fungal-like":
+            bodyCovering = "fruit body"
+            break
         default:
             break
     }
@@ -159,56 +170,86 @@ function generateStarSystem() {
     }
 
     // place star on the webpage with name
-    let starElement = document.createElement("div")
+    let starContainer = document.createElement("div")
+    starContainer.classList.add("star-container")
+    starContainer.style.top = starParams.y + "px"
+    starContainer.style.left = 100 * (starParams.x / (spaceX + padding)) + "%"
+
+    let starElement = document.createElement("img")
     starElement.classList.add("entity")
-    starElement.style.top = starParams.y + "px"
-    starElement.style.left = 100 * (starParams.x / (spaceX + padding)) + "%"
 
     let starName = document.createElement("div")
     starName.classList.add("star-name")
     starName.innerHTML = starParams.name
 
-    starElement.appendChild(starName)
-    space.appendChild(starElement)
+    starContainer.appendChild(starElement)
+    starContainer.appendChild(starName)
+    space.appendChild(starContainer)
 
     let starList = document.querySelector("#star-list")
 
-    // output everything to console
-    console.log("Star System: " + STAR_SYSTEM.star.name)
-    console.log("Star Diameter: " + STAR_SYSTEM.star.diameter)
+    // add row in table of star system
+    let trElement = document.createElement("tr")
+    starList.appendChild(trElement)
+    trElement.setAttribute("onmousedown", "showChildren()")
 
+    let nameElement = document.createElement("th")
+    nameElement.setAttribute("scope", "row")
+    nameElement.innerHTML = STAR_SYSTEM.star.name + " - Diameter: " + STAR_SYSTEM.star.diameter
+    trElement.appendChild(nameElement)
 
     STAR_SYSTEM.planets.forEach(e => {
-        // console.log(`Name: ${e.name} - Type: ${e.type} - Habitable: ${e.isHabitable} - Diameter: ${e.diameter} km - Distance from Star: ${e.distance} km`)
-        // if (e.civilization) {
-        //     console.log("    Civilization Name: " + e.civilization.name)
-        //     console.log("    Tech Level: " + e.civilization.techLevel)
-        //     console.log("    Type: " + e.civilization.type)
-        //     console.log("    Body: " + e.civilization.body)
-        // }
         let trElement = document.createElement("tr")
         starList.appendChild(trElement)
 
         let nameElement = document.createElement("th")
         nameElement.setAttribute("scope", "row")
         nameElement.innerHTML = e.name
+        nameElement.setAttribute("display", "none")
         trElement.appendChild(nameElement)
 
         let typeElement = document.createElement("td")
         typeElement.innerHTML = e.type
+        typeElement.setAttribute("display", "none")
         trElement.appendChild(typeElement)
 
         let habElement = document.createElement("td")
         habElement.innerHTML = e.isHabitable
+        habElement.setAttribute("display", "none")
         trElement.appendChild(habElement)
 
         let diamElement = document.createElement("td")
-        diamElement.innerHTML = e.diameter
+        diamElement.innerHTML = e.diameter + " km"
+        diamElement.setAttribute("display", "none")
         trElement.appendChild(diamElement)
 
         let distElement = document.createElement("td")
-        distElement.innerHTML = e.distance
+        distElement.innerHTML = (e.distance / 149600000).toFixed(2) + " AU"
+        distElement.setAttribute("display", "none")
         trElement.appendChild(distElement)
+
+        if (e.civilization) {
+            let trElement = document.createElement("tr")
+            trElement.classList.add("--bs-success")
+            starList.appendChild(trElement)
+
+            let nameElement = document.createElement("th")
+            nameElement.setAttribute("scope", "row")
+            nameElement.innerHTML = e.civilization.name
+            trElement.appendChild(nameElement)
+
+            let typeElement = document.createElement("td")
+            typeElement.innerHTML = e.civilization.techLevel
+            trElement.appendChild(typeElement)
+
+            let habElement = document.createElement("td")
+            habElement.innerHTML = e.civilization.body
+            trElement.appendChild(habElement)
+
+            let diamElement = document.createElement("td")
+            diamElement.innerHTML = e.civilization.type
+            trElement.appendChild(diamElement)
+        }
     })
 
     console.log("")
@@ -216,9 +257,13 @@ function generateStarSystem() {
 
 function loopGenerate() {
     // remove all stars
-    let spaceDiv = document.getElementById("space")
-    while (spaceDiv.lastElementChild) {
-        spaceDiv.removeChild(space.lastElementChild)
+    while (space.lastElementChild) {
+        space.removeChild(space.lastElementChild)
+    }
+
+
+    while (starListTable.lastElementChild) {
+        starListTable.removeChild(starListTable.lastElementChild)
     }
 
     // add number of star sytems equal to system number value
@@ -230,5 +275,13 @@ function loopGenerate() {
             generateStarSystem()
         }
     }
+}
+
+function showChildren() {
+    let elemChildren = document.getElementById(this).children
+    elemChildren.forEach(e => {
+        e.setAttribute("display", "block")
+    })
+
 }
 
